@@ -1,113 +1,114 @@
-# APP-CBM-CAMPO-VERDE
+# App193 — Aplicativo de Emergências
 
-Projeto de desenvolvimento de um aplicativo para emergências do corpo de bombeiros militar de Campo verde, onde será possível informar incidentes através do celular
+Aplicativo mobile que permite ao cidadão de Campo Verde (MT) acionar o **Corpo
+de Bombeiros Militar** pelo celular, informando o tipo de incidente e enviando
+a localização automaticamente — reduzindo o tempo entre a ocorrência e o
+despacho da guarnição.
 
-## Linguagem de programação
+Trabalho de conclusão do curso de Análise e Desenvolvimento de Sistemas —
+IFMT Câmpus Campo Verde. Trabalho reconhecido com **Troféu de Mérito
+Estudantil** na 1ª Jornada de Ensino, Pesquisa e Extensão do câmpus, em 2025.
 
-`React.Native`
+<!--
+## Telas
 
-Criando arquitetura do projeto React.Native
-`npx create-expo-app MudeNomeAqui --template blank`
+Adicione os prints em docs/ e remova estes comentários para ativar a seção.
 
-Para executar o servidor que roda o projeto `npx expo start`
+| Login | Tipos de emergência | Localização |
+|---|---|---|
+| ![Tela de login](docs/login.png) | ![Seleção do tipo de emergência](docs/emergencias.png) | ![Confirmação da localização no mapa](docs/mapa.png) |
+-->
 
-Pode ocorrer de não conseguir conseguir conectar ao projeto por problemas com firewall ou isolamento de AP no roteador.
-Nesse caso pode usar `npx expo start -c --tunnel`
+## Funcionalidades
 
-## Bibliotecas
+- **Cadastro do cidadão** em duas etapas — dados pessoais e, em seguida,
+  endereço e telefone, com máscaras de CPF, CEP e telefone
+- **Autenticação** com recuperação de senha
+- **Acionamento por tipo de ocorrência**: incêndio, afogamento, acidente,
+  atropelamento e engasgo
+- **Captura automática de geolocalização**, com visualização e confirmação do
+  ponto em mapa antes do envio
+- **Endereço por geocodificação reversa** — a partir das coordenadas, o app
+  preenche rua, bairro e cidade automaticamente
+- **Registro de vítimas** — quantidade e condição
+- **Acionamento sem localização**, para quando o cidadão nega a permissão de
+  GPS ou o sinal falha
+- **Armazenamento seguro de credenciais** no dispositivo com Expo SecureStore
 
-### Biblioteca de Navegação
+## Stack
 
-[biblioteca de navegação](https://reactnavigation.org/)
+React Native 0.79 · Expo 53 · React Navigation · react-native-maps ·
+expo-location · Expo SecureStore · Biome
 
-`npm install @react-navigation/native`
+## Rodando localmente
 
-`npx expo install react-native-screens react-native-safe-area-context`
+Requisitos: Node.js 20+ e o app **Expo Go** no celular.
 
-#### Biblioteca para uso de SVG
-
-[Documentação do Expo Go](https://docs.expo.dev/versions/latest/sdk/svg/)
-
-`npx expo install react-native-svg`
-
-`yarn add --dev react-native-svg-transformer -D`
-
-#### Biblioteca para localização
-
-`npm install @react-native-community/geolocation --save`
-
-[Video Tutorial](https://www.youtube.com/watch?v=7DY1tHHudtM)
-
-## Manual de orientações do Projeto
-
-### Registro e identificação de operações
-
-* Toda operação de **inclusão**  realizada dentro do sistema tem que ter registro da data e usuário que incluiu
-* Toda operação de **alteração** deve registrar data e usuário que realizou a alteração.
-
-#### Atenção!!!
-
-Os campos de registro de inclusão `date`e `user` **não devem jamais ser alterados**.
-
-Os dados de alteração serão registrados em campos diferentes
-
-## Banco de dados
-
-Utilizaremos o banco de dado **postgresql** por ser open source, utilizaremos todo o serviço de banco de dados com o **Docker**, usaremos a imagem `bitnami/postgresql:latest`.
-
-Utilizaremos o [ORM Prisma](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch) para gerenciar nosso banco de dados.
-
-### Preparações
-
-Inicialmente é necessário instalar o `docker` e o `prisma`.
-
-```javascript
-//Instalação do prisma
-npm install @prisma/client
-//Esta instalação é sem typescript
-//Para typescript -- npm install prisma typescript tsx @types/node --save-dev
-npm install prisma -D
-npx prisma
-//Cria a pasta prisma no projeto
-npx prisma init
+```bash
+git clone https://github.com/HumbertoQueiroz/APP-CBM-CAMPO-VERDE
+cd APP-CBM-CAMPO-VERDE
+npm install
+npx expo start
 ```
 
-Depois de instalar o prisma é necessário criar o arquivo `docker-compose.yml` onde será configurado as informações para criar o banco de dados.
+Leia o QR Code com o Expo Go, ou use `npm run android` / `npm run ios` para
+abrir em emulador.
 
-```yml
-//Exemplo de um arquivo docker-compose
-version: '3.7'
+### Apontando para outra API
 
-name: NomeDoDocker
+O endereço da API fica no contexto definido em `App.jsx`:
 
-services:
-  pg:
-    container_name: NomeDoDocker
-    image: bitnami/postgresql:latest
-    ports:
-      - '5432:5432'
-    environment:
-      - POSTGRES_USER=NomeDoUsuarioDoBancoDeDados
-      - POSTGRES_PASSWORD=Senha
-      - POSTGRES_DB=NomeDoBancoDeDados
+```js
+export const ipContext = createContext('cbm-app-6qeks.ondigitalocean.app')
 ```
 
-Além da pasta prisma será criado um arquivo `.env`,  será necessário configurar os dados de conexão nele.
+Por padrão o app consome a API em produção. Para usar uma instância local,
+troque esse valor pelo IP da sua máquina na rede (não use `localhost` — o
+celular não enxerga o `localhost` do computador).
 
-```env
-DATABASE_URL="postgresql://NomeDoUsuarioDoBancoDeDados:Senha@localhost:5432/NomeDoBancoDeDados?schema=public"
+## Estrutura
+
+```
+App.jsx                     Navegação, contextos de autenticação e de API
+src/pages/
+  Login.jsx                 Autenticação
+  Registrarse.jsx           Cadastro — dados pessoais
+  EnderecoTelefone.jsx      Cadastro — endereço e telefone
+  RecuperarSenha.jsx        Recuperação de senha
+  HomeEmergencias.jsx       Seleção do tipo de emergência
+  localizacao.jsx           Captura e confirmação da localização
+  dadosEmergencia.jsx       Detalhes da ocorrência e envio
+src/components/             Inputs com máscara e funções de armazenamento local
+src/assets/                 Ícones das naturezas de ocorrência (SVG)
 ```
 
-Inicia o docker e para iniciar o serviço do banco de dados executar `docker compose up -d`.
+## Decisões de projeto
 
-Após carregar teremos um banco de dados rodando, sendo necessário criar as tabelas.
+**Trilha de auditoria imutável.** Toda inclusão grava data e usuário
+responsável, e esses campos nunca são alterados — modificações posteriores
+gravam em campos próprios. Em um sistema de emergência, o histórico de uma
+ocorrência precisa ser reconstituível: quem registrou, quando, e o que mudou
+depois.
 
-Criar as tabelas na pasta `prisma/esquema.prisma` conforme [documentação.](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/using-prisma-migrate-typescript-prismaPostgres?utm_source=docs)
+**Confirmação da localização antes do envio.** O app não despacha a coordenada
+do GPS direto. Mostra o ponto no mapa e pede confirmação, porque erro de GPS em
+área urbana chega a dezenas de metros — e endereço errado em emergência custa
+tempo de atendimento.
 
-``` node
-npx prisma migrate dev --name init
-```
+**Acionamento não bloqueado pela ausência de GPS.** Se o cidadão nega a
+permissão ou o sinal falha, o fluxo continua sem coordenada e apenas com o
+endereço digitado. Um app de emergência não pode recusar um chamado por causa
+de uma permissão negada.
 
-### Atualização de versão dos pacotes
+## Projeto completo
 
-Caso comece a informar que os pacotes instalados são de versão anterior a esperada, basta usar o comando `npx expo install --fix`para atualizar.
+| Camada | Repositório |
+|---|---|
+| App mobile | este repositório |
+| API | [APPCBM-BackEnd](https://github.com/HumbertoQueiroz/APPCBM-BackEnd) |
+| Painel web | [AppCbmWeb](https://github.com/HumbertoQueiroz/AppCbmWeb) |
+
+## Histórico
+
+A versão inicial do aplicativo, anterior à integração com a API, está
+preservada no branch [`versao-inicial`](../../tree/versao-inicial).
