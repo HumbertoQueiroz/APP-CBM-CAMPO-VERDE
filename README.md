@@ -9,15 +9,12 @@ Trabalho de conclusão do curso de Análise e Desenvolvimento de Sistemas —
 IFMT Câmpus Campo Verde. Trabalho reconhecido com **Troféu de Mérito
 Estudantil** na 1ª Jornada de Ensino, Pesquisa e Extensão do câmpus, em 2025.
 
-<!--
 ## Telas
 
-Adicione os prints em docs/ e remova estes comentários para ativar a seção.
-
-| Login | Tipos de emergência | Localização |
-|---|---|---|
-| ![Tela de login](docs/login.png) | ![Seleção do tipo de emergência](docs/emergencias.png) | ![Confirmação da localização no mapa](docs/mapa.png) |
--->
+A
+| Login | Tipos de emergência | Localização | Informações da ocorrência
+|---|---|---| ---
+| ![Tela de login](Screenshot_20251207_181841_APP-CBM.jpg) | ![Tipos de emergência](Screenshot_20251207_182003_APP-CBM.jpg) | ![Localização](Screenshot_20251207_182009_APP-CBM.jpg) | ![Informações da ocorrência](Screenshot_20251207_182041_APP-CBM.jpg)
 
 ## Funcionalidades
 
