@@ -11,10 +11,9 @@ Estudantil** na 1ª Jornada de Ensino, Pesquisa e Extensão do câmpus, em 2025.
 
 ## Telas
 
-A
-| Login | Tipos de emergência | Localização | Informações da ocorrência
-|---|---|---| ---
-| ![Tela de login](Screenshot_20251207_181841_APP-CBM.jpg) | ![Tipos de emergência](Screenshot_20251207_182003_APP-CBM.jpg) | ![Localização](Screenshot_20251207_182009_APP-CBM.jpg) | ![Informações da ocorrência](Screenshot_20251207_182041_APP-CBM.jpg)
+| Login | Tipos de emergência | Localização | Informações da ocorrência |
+|---|---|---|---|
+| ![Tela de login](Screenshot_20251207_181841_APP-CBM.jpg) | ![Tipos de emergência](Screenshot_20251207_182003_APP-CBM.jpg) | ![Localização](Screenshot_20251207_182009_APP-CBM.jpg) | ![Informações da ocorrência](Screenshot_20251207_182041_APP-CBM.jpg) |
 
 ## Funcionalidades
 
@@ -59,9 +58,11 @@ O endereço da API fica no contexto definido em `App.jsx`:
 export const ipContext = createContext('cbm-app-6qeks.ondigitalocean.app')
 ```
 
-Por padrão o app consome a API em produção. Para usar uma instância local,
-troque esse valor pelo IP da sua máquina na rede (não use `localhost` — o
-celular não enxerga o `localhost` do computador).
+O valor padrão aponta para a instância que hospedou a API durante o
+desenvolvimento do projeto, hoje fora do ar. Para rodar o app, suba a
+[API](https://github.com/HumbertoQueiroz/APPCBM-BackEnd) localmente e troque
+esse valor pelo IP da sua máquina na rede — não use `localhost`, porque o
+celular não enxerga o `localhost` do computador.
 
 ## Estrutura
 
